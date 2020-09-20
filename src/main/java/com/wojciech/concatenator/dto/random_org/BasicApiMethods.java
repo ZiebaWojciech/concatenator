@@ -8,7 +8,7 @@ public enum BasicApiMethods {
 
     public final String methodName;
 
-    private BasicApiMethods(String methodName) {
+    BasicApiMethods(String methodName) {
         this.methodName = methodName;
     }
 }
