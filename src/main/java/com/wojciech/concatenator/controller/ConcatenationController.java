@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ConcatenationController {
-    private DataRepository dataRepository;
-    private ConcatenationService concatenationService;
+    private final DataRepository dataRepository;
+    private final ConcatenationService concatenationService;
 
     @Autowired
     public ConcatenationController(DataRepository dataRepository,

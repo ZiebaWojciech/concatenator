@@ -6,6 +6,9 @@ import com.wojciech.concatenator.strategy.ConcatenationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Concatenates given values. Implementation for Integer input.
+ */
 @Service
 public class IntegerConcatenationService implements ConcatenationService {
     private ConcatenationStrategy<Integer> strategy;

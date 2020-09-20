@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Obtain values from each of the data source. One source gives one Integer value.
+ */
 @Service
 public class IntegerRepository implements DataRepository {
     private final List<DataSource<Integer>> dataSources;

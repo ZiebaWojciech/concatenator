@@ -5,10 +5,13 @@ import java.util.List;
 
 import lombok.Data;
 
+/**
+ * Result object of concatenation with values used to concatenate
+ */
 @Data
 public class ConcatenationResult {
     private List<Object> values = new ArrayList<>();
-    private String result;
+    private Object result;
 
     public void addValue(Object newValue){
         values.add(newValue);
