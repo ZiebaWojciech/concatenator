@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public class RandomOrgIntegerFetcher implements DataSource<Integer> {
     private final ObjectMapper jsonMapper = new ObjectMapper();
     @Override
     public Integer getValue() {
+        if (StringUtils.isEmpty(apiKey) || StringUtils.isEmpty(apiUrl)) {
+            throw new IllegalStateException("Required API information is missing");
+        }
         String requestObject = createRequestJson();
         String response = getApiResponse(requestObject);
         return retrieveSingleOutputFromApiResponse(response);
