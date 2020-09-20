@@ -11,7 +11,7 @@ public class ConcatenationController {
 
     @GetMapping("/concatenate")
     public Object concatenate(){
-        Object[] values = dataRepository.getValues();
+        Object[] values = dataRepository.getValuesFromEachSource();
         return null;
     }
 }
