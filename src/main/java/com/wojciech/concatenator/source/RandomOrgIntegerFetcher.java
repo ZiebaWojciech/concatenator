@@ -30,24 +30,12 @@ public class RandomOrgIntegerFetcher implements DataSource<Integer> {
     private final ObjectMapper jsonMapper = new ObjectMapper();
     @Override
     public Integer getValue() {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        GenerateIntegersParams params = new GenerateIntegersParams(apiKey, 1, 0, 100_000);
+        String requestObject = createRequestJson();
+        String response = getApiResponse(requestObject);
+        return retrieveSingleOutputFromApiResponse(response);
+    }
 
-        Request request = new Request(BasicApiMethods.GENERATE_INTEGERS.methodName, params, 0);
-
-        String requestObject = null;
-        try {
-            requestObject = jsonMapper.writeValueAsString(request);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestObject, headers);
-        String response = restTemplate.postForObject(apiUrl, requestEntity, String.class);
-
+    private Integer retrieveSingleOutputFromApiResponse(String response) {
         Integer resultRandom = null;
         try {
             Response responseObject = jsonMapper.readValue(response, Response.class);
@@ -61,8 +49,30 @@ public class RandomOrgIntegerFetcher implements DataSource<Integer> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return resultRandom;
+    }
+
+    private String getApiResponse(String requestObject) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestObject, headers);
+        return restTemplate.postForObject(apiUrl, requestEntity, String.class);
+    }
+
+    private String createRequestJson() {
+        GenerateIntegersParams params = new GenerateIntegersParams(apiKey, 1, 0, 100_000);
+
+        Request request = new Request(BasicApiMethods.GENERATE_INTEGERS.methodName, params, 0);
+
+        String requestObject = null;
+        try {
+            requestObject = jsonMapper.writeValueAsString(request);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return requestObject;
     }
 
 }
